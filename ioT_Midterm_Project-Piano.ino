@@ -55,12 +55,13 @@ const int SPEAKER = 13;
 
 //----------------PIANO TILE----------------
 //SET UP SONG
-int notes[100];
-int times[100];
-int tap[40];
+int notes[70];
+int times[70];
+int tap[120];
 int notelength = 0;
 int taplength = 0;
 
+//8 BIT TEST Song
 int bit_test_note[] = {
   NOTE_A4, NOTE_E3, NOTE_A4, 0, 
   NOTE_A4, NOTE_E3, NOTE_A4, 0,
@@ -71,14 +72,91 @@ int bit_test_time[] = {
   250, 250, 250, 250, 
   250, 250, 250, 250,
   125, 125, 125, 125, 125, 125, 125, 125,
-  250, 250, 250, 250 
+  250, 250, 250, 250
 };
 int bit_test_tap[] = {
-  0, RE, 250, DO, 250, RE, 
-  500, RE, 250, DO, 250 , RE,
+  0, RE, 250, DO, 300, RE, 
+  450, RE, 250, DO, 250 , RE,
   350, ME, 125, RE, 125 , DO, 125, SOL, 125, FA, 125, ME,
-  250, RE, 250, DO, 250, RE
+  250, RE, 250, DO, 300, RE
 };
+
+//Jingle bell Song
+int bell_note[] = {
+  NOTE_E5, NOTE_E5, NOTE_E5, 
+  NOTE_E5, NOTE_E5, NOTE_E5, 
+  NOTE_E5, NOTE_G5, NOTE_C5, NOTE_D5,
+  NOTE_E5,
+  NOTE_F5, NOTE_F5, NOTE_F5, NOTE_F5,
+  NOTE_F5, NOTE_E5, NOTE_E5, NOTE_E5, NOTE_E5,
+  NOTE_E5, NOTE_D5, NOTE_D5, NOTE_E5,
+  NOTE_D5, NOTE_G5, 0
+};
+int bell_time[] = {
+  200, 200, 200, 
+  400, 200, 200, 
+  400, 200, 200, 200, 
+  200,
+  800, 200, 200, 200,
+  200, 200, 200, 200, 100,
+  100, 200, 200, 200,
+  200, 400, 400
+};
+int bell_tap[] = {
+  0, RE,
+  800, RE,
+  800, RE, 200, FA, 200, DO,
+  400, RE,
+  800, ME,
+  800, ME, 200, RE, 500, RE,
+  300, DO, 400, ME,
+  200, DO, 400, FA
+};
+
+//Birth Day Song
+int birth_note[] = {
+  NOTE_C4, NOTE_C4,
+  NOTE_D4, NOTE_C4, NOTE_F4,
+  NOTE_E4, 
+  
+  NOTE_C4, NOTE_C4,
+  NOTE_D4, NOTE_C4, NOTE_G4,
+  NOTE_F4, NOTE_C4, NOTE_C4,
+
+  NOTE_C5, NOTE_A4, NOTE_F4,
+  NOTE_E4, NOTE_D4, NOTE_AS4, NOTE_AS4,
+  NOTE_A4, NOTE_F4, NOTE_G4,
+  NOTE_F4, NOTE_F4, 0
+};
+int birth_time[] = {
+  200, 200,
+  200, 700, 400, 
+  400,
+
+  800, 200,
+  200, 700, 400, 
+  400,
+
+  800, 400, 300,
+  800, 400, 800, 400,
+  300, 800, 800,
+  400, 800, 800
+};
+int birth_tap[] = {
+  0, DO, 
+  400, RE, 900, DO, 400, FA,
+  400, RE,
+
+  800, DO, 
+  400, RE, 900, DO, 400, SOL,
+  400, FA,
+
+  800, DO, 700, SOL,
+  800, FA, 400, RE, 800, SOL, 
+  700, FA, 800, ME, 1400, SOL,
+  400, ME 
+};
+
 
 
 //SET UP STATE
@@ -109,7 +187,7 @@ boolean isToning = false;
 //----------------PIANO MENU----------------
 //SET UP STATE
 //menu state
-int menustate = 2;     // 0-menu, 1-piano, 2-tile
+int menustate = 0;     // 0-menu, 1-piano, 2-tile
 
 char *menuchoice[] = {"> Normal Piano", "> Tile Piano"};
 int menucur = 0;       // 0-piano, 1-tile
@@ -117,7 +195,9 @@ int menucur = 0;       // 0-piano, 1-tile
 //tile state
 int tilestate = 0;     // 0-select music, 1-play music
 char *tilechoice[] = {
-  "8Bit TEST"
+  "8Bit TEST",
+  "Jingle Bell",
+  "Happy Birthday"
   };
 int tilecur = 0;
 
@@ -192,42 +272,38 @@ void normalplay(){
   curDOO = debounce(lastDOO, DOO);
   
   if(lastDO == LOW && curDO == HIGH){
-    tone(SPEAKER, NOTE_C4);
+    tone(SPEAKER, NOTE_C4, 200);
     isToning = true;
   }
   else if(lastRE == LOW && curRE == HIGH){
-    tone(SPEAKER, NOTE_D4);
+    tone(SPEAKER, NOTE_D4, 200);
     isToning = true;
   }
   else if(lastME == LOW && curME == HIGH){
-    tone(SPEAKER, NOTE_E4);
+    tone(SPEAKER, NOTE_E4, 200);
     isToning = true;
   }
   else if(lastFA == LOW && curFA == HIGH){
-    tone(SPEAKER, NOTE_F4);
+    tone(SPEAKER, NOTE_F4, 200);
     isToning = true;
   }
   else if(lastSOL == LOW && curSOL == HIGH){
-    tone(SPEAKER, NOTE_G4);
+    tone(SPEAKER, NOTE_G4, 200);
     isToning = true;
   }
   else if(lastLA == LOW && curLA == HIGH){
-    tone(SPEAKER, NOTE_A4);
+    tone(SPEAKER, NOTE_A4, 200);
     isToning = true;
   }
   else if(lastTE == LOW && curTE == HIGH){
-    tone(SPEAKER, NOTE_B4);
+    tone(SPEAKER, NOTE_B4, 200);
     isToning = true;
   }
   else if(lastDOO == LOW && curDOO == HIGH){
-    tone(SPEAKER, NOTE_C5);
+    tone(SPEAKER, NOTE_C5, 200);
     isToning = true;
   }
   else{
-    if(isToning){
-      delay(100); 
-    }
-    noTone(SPEAKER);
     isToning = false;
   }
 
@@ -247,7 +323,7 @@ void normalplay(){
   lastDOO = curDOO;
 
   normalDisplaylcd();
-  if(digitalRead(DO) == HIGH && holdDOTime >= 1000){
+  if(digitalRead(DO) == HIGH && holdDOTime >= 800){
     tone(SPEAKER, NOTE_B6, 200);
     delay(200);
     tone(SPEAKER, NOTE_B4, 250);
@@ -255,7 +331,7 @@ void normalplay(){
     menustate = 0;
     holdDOTime = 0;
   }
-  else if(digitalRead(DO) == HIGH && holdDOTime < 1000){
+  else if(digitalRead(DO) == HIGH && holdDOTime < 800){
     holdDOTime+=20;
   }
   else{
@@ -436,12 +512,12 @@ void lcdLightdown(int index){
 }
 void conclusionScore(){
   lcd.setCursor(0, 0);
-  lcd.print("your score: ");
+  lcd.print("Your score: ");
   lcd.setCursor(12, 0);
   lcd.print(score);
 
   lcd.setCursor(0, 1);
-  lcd.print("full score: ");
+  lcd.print("Full score: ");
   lcd.setCursor(12, 1);
   lcd.print(fullscore);
 
@@ -654,8 +730,16 @@ void tilemenu(){
     lcd.createChar(7, state7);
 
     lcd.clear();
-    lcd.setCursor(1, 0);
-    lcd.print("~ ~ Loading ~ ~");
+    lcd.setCursor(7, 0);
+    lcd.print("03");
+    delay(1000);
+    lcd.setCursor(7, 0);
+    lcd.print("02");
+    delay(1000);
+    lcd.setCursor(7, 0);
+    lcd.print("01");
+    delay(1000);
+    
     loadmusic();
     
     tilestate = 1;
@@ -664,7 +748,7 @@ void tilemenu(){
   }
 
   //back button
-  if(digitalRead(DO) == HIGH && holdDOTime >= 1000){
+  if(digitalRead(DO) == HIGH && holdDOTime >= 800){
     tone(SPEAKER, NOTE_B6, 200);
     delay(200);
     tone(SPEAKER, NOTE_B4, 250);
@@ -672,7 +756,7 @@ void tilemenu(){
     menustate = 0;
     holdDOTime = 0;
   }
-  else if(digitalRead(DO) == HIGH && holdDOTime < 1000){
+  else if(digitalRead(DO) == HIGH && holdDOTime < 800){
     holdDOTime+=20;
   }
   else{
@@ -695,7 +779,7 @@ void loadmusic(){
     else{
       timelength = 100;
     }
-    if(sizeof(bit_test_note)/sizeof(*bit_test_note) <= 70){
+    if(sizeof(bit_test_tap)/sizeof(*bit_test_tap) <= 70){
       taplength = sizeof(bit_test_tap)/sizeof(*bit_test_tap);
     }
     else{
@@ -704,6 +788,56 @@ void loadmusic(){
     for(int i = 0; i < notelength; i++){ notes[i] = bit_test_note[i]; }
     for(int i = 0; i < timelength; i++){ times[i] = bit_test_time[i]; }
     for(int i = 0; i < taplength; i++){ tap[i] = bit_test_tap[i]; }
+  }
+  
+  else if(tilechoice[tilecur] == "Jingle Bell"){
+    if(sizeof(bell_note)/sizeof(*bell_note) <= 100){
+      notelength = sizeof(bell_note)/sizeof(*bell_note);
+    }
+    else{
+      notelength = 100;
+    }
+    int timelength;
+    if(sizeof(bell_time)/sizeof(*bell_time) <= 100){
+      timelength = sizeof(bell_time)/sizeof(*bell_time);
+    }
+    else{
+      timelength = 100;
+    }
+    if(sizeof(bell_tap)/sizeof(*bell_tap) <= 70){
+      taplength = sizeof(bell_tap)/sizeof(*bell_tap);
+    }
+    else{
+      taplength = 120;
+    }
+    for(int i = 0; i < notelength; i++){ notes[i] = bell_note[i]; }
+    for(int i = 0; i < timelength; i++){ times[i] = bell_time[i]; }
+    for(int i = 0; i < taplength; i++){ tap[i] = bell_tap[i]; }
+  }
+  
+  else if(tilechoice[tilecur] == "Happy Birthday"){
+    if(sizeof(birth_note)/sizeof(*birth_note) <= 100){
+      notelength = sizeof(birth_note)/sizeof(*birth_note);
+    }
+    else{
+      notelength = 100;
+    }
+    int timelength;
+    if(sizeof(birth_time)/sizeof(*birth_time) <= 100){
+      timelength = sizeof(birth_time)/sizeof(*birth_time);
+    }
+    else{
+      timelength = 100;
+    }
+    if(sizeof(birth_tap)/sizeof(*birth_tap) <= 70){
+      taplength = sizeof(birth_tap)/sizeof(*birth_tap);
+    }
+    else{
+      taplength = 120;
+    }
+    for(int i = 0; i < notelength; i++){ notes[i] = birth_note[i]; }
+    for(int i = 0; i < timelength; i++){ times[i] = birth_time[i]; }
+    for(int i = 0; i < taplength; i++){ tap[i] = birth_tap[i]; }
   }
 }
 
