@@ -207,6 +207,7 @@ int holdDOTime = 0;   //check time to back to menu
 //LCD STATE
 boolean lcdclear = false;
 boolean backfromtile = false;
+boolean backfromtilemode = false;
 
 
 
@@ -542,22 +543,44 @@ void conclusionScore(){
 
 //Tap check
 void clickCheck(){
+  curDO = debounce(lastDO, DO);
+  curRE = debounce(lastRE, RE);
+  curME = debounce(lastME, ME);
+  curFA = debounce(lastFA, FA);
+  curSOL = debounce(lastSOL, SOL);
+  curLA = debounce(lastLA, LA);
+  curTE = debounce(lastTE, TE);
+  curDOO = debounce(lastDOO, DOO);
+  
   for(int i = 2; i < 10; i++){
 
     //active tap
-    if(tapstate[(i-2)*2] == 1 && digitalRead(i) == HIGH){
+    if(tapstate[(i-2)*2] == 1 && i == 2 && (lastDO == LOW && curDO == HIGH)){
       tapintime(i);
-//      Serial.print(tapstate[((i-2)*2+1)]);
-//      Serial.print("\t");
+    }
+    else if(tapstate[(i-2)*2] == 1 && i == 3 && (lastRE == LOW && curRE == HIGH)){
+      tapintime(i);
+    }
+    else if(tapstate[(i-2)*2] == 1 && i == 4 && (lastME == LOW && curME == HIGH)){
+      tapintime(i);
+    }
+    else if(tapstate[(i-2)*2] == 1 && i == 5 && (lastFA == LOW && curFA == HIGH)){
+      tapintime(i);
+    }
+    else if(tapstate[(i-2)*2] == 1 && i == 6 && (lastSOL == LOW && curSOL == HIGH)){
+      tapintime(i);
+    }
+    else if(tapstate[(i-2)*2] == 1 && i == 7 && (lastLA == LOW && curLA == HIGH)){
+      tapintime(i);
+    }
+    else if(tapstate[(i-2)*2] == 1 && i == 8 && (lastTE == LOW && curTE == HIGH)){
+      tapintime(i);
+    }
+    else if(tapstate[(i-2)*2] == 1 && i == 8 && (lastDOO == LOW && curDOO == HIGH)){
+      tapintime(i);
     }
     else if(tapstate[(i-2)*2] == 1){
       nottap(i);
-//      Serial.print(tapstate[((i-2)*2)+1]);
-//      Serial.print("\t");
-    }
-    else{
-//      Serial.print(tapstate[((i-2)*2)+1]);
-//      Serial.print("\t");
     }
 
     //coming tap
@@ -565,21 +588,21 @@ void clickCheck(){
       comingstate[(i-2)*2] = 0;
       comingstate[((i-2)*2)+1] = 0;
       lcdcomingtap((i-2)*2, 0);
-//      Serial.print(comingstate[((i-2)*2)+1]);
-//      Serial.print("\t");
     }
     else if(comingstate[(i-2)*2] == 1){
       lcdcomingtap((i-2)*2, comingstate[((i-2)*2)+1]);
       comingstate[((i-2)*2)+1] += 50;
-//      Serial.print(comingstate[((i-2)*2)+1]);
-//      Serial.print("\t");
-    }
-    else{
-//      Serial.print(comingstate[((i-2)*2)+1]);
-//      Serial.print("\t");
     }
   }
-//  Serial.println();
+
+  lastDO = curDO;
+  lastRE = curRE;
+  lastME = curME;
+  lastFA = curFA;
+  lastSOL = curSOL;
+  lastLA = curLA;
+  lastTE = curTE;
+  lastDOO = curDOO;
 }
 
 void tapintime(int note){          //tap in time
@@ -650,6 +673,10 @@ void menudisplay(){
     lcd.write(6);
   }
 
+  if(backfromtilemode){
+    delay(1000);
+    backfromtilemode = false;
+  }
   
   if(digitalRead(DO) == HIGH && menucur == 1){
     menucur = 0;
@@ -755,6 +782,7 @@ void tilemenu(){
     delay(250);
     menustate = 0;
     holdDOTime = 0;
+    backfromtilemode = true;
   }
   else if(digitalRead(DO) == HIGH && holdDOTime < 800){
     holdDOTime+=20;
