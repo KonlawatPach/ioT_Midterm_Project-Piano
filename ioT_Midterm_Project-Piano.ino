@@ -130,30 +130,30 @@ int birth_note[] = {
 };
 int birth_time[] = {
   200, 200,
-  200, 700, 400, 
+  200, 600, 400, 
   400,
 
   800, 200,
-  200, 700, 400, 
+  200, 600, 400, 
   400,
 
   800, 400, 300,
-  800, 400, 800, 400,
-  300, 800, 800,
+  600, 400, 600, 400,
+  300, 600, 800,
   400, 800, 800
 };
 int birth_tap[] = {
   0, DO, 
-  400, RE, 900, DO, 400, FA,
+  400, RE, 800, DO, 400, FA,
   400, RE,
 
   800, DO, 
-  400, RE, 900, DO, 400, SOL,
+  400, RE, 800, DO, 400, SOL,
   400, FA,
 
   800, DO, 700, SOL,
-  800, FA, 400, RE, 800, SOL, 
-  700, FA, 800, ME, 1400, SOL,
+  600, FA, 400, RE, 600, SOL, 
+  700, FA, 600, ME, 1300, SOL,
   400, ME 
 };
 
@@ -885,14 +885,4 @@ void loop() {
     }
   }
 
-//  if(digitalRead(DOO) == HIGH && holdDOTime >= 6000){
-//    menustate = 0;
-//    holdDOTime = 0;
-//  }
-//  else if(digitalRead(DOO) == HIGH && holdDOTime < 6000){
-//    holdDOTime+=20;
-//  }
-//  else{
-//    holdDOTime = 0;
-//  }
 }
