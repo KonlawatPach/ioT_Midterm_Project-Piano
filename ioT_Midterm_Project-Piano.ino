@@ -660,7 +660,7 @@ void menudisplay(){
     lcd.clear();
   }
   lcd.setCursor(0, 0);
-  lcd.print("Choose Game:");
+  lcd.print("Choose Game: ");
   
   lcd.setCursor(0, 1);
   lcd.print(menuchoice[menucur]);
@@ -783,6 +783,7 @@ void tilemenu(){
     menustate = 0;
     holdDOTime = 0;
     backfromtilemode = true;
+    lcdclear = false;
   }
   else if(digitalRead(DO) == HIGH && holdDOTime < 800){
     holdDOTime+=20;
